@@ -1,5 +1,5 @@
 # Do-day
-new bee's team project from ptkorea
+new bee's team project from internal corporate
 
 AI를 활용한 취준생들을 위한 마음 케어 어플
 
