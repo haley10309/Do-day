@@ -50,6 +50,5 @@ app.post("/generate", async (req, res) => {
 });
 
 app.listen(port, '0.0.0.0', () => { 
-  console.log(`🚀 [BACKEND LOG] 서버 실행 중: http://localhost:${port}`);
-  console.log(`💡 [BACKEND LOG] 아이폰에서 접속하려면 http://[니_맥북_IP]:${port}/generate 로 해봐!`);
+  console.log(`🚀 [BACKEND LOG] 서버 실행 중: http://0.0.0.0:${port}`);
 });
