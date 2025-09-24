@@ -1,13 +1,13 @@
-// src/screens/MyPageScreen.js
+// src/screens/LoungeScreen.js
 
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-function MyPageScreen() {
+function LoungeScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>👤 마이페이지</Text>
-      <Text style={styles.subtitle}>내 정보를 관리하고, 업적을 확인해보세요!</Text>
+      <Text style={styles.title}>🕹️ 라운지 (미니 게임)</Text>
+      <Text style={styles.subtitle}>준비 중인 미니 게임이 있어요!</Text>
     </View>
   );
 }
@@ -17,13 +17,13 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#E0F2F7',
+    backgroundColor: '#F7FFF7',
   },
   title: {
     fontSize: 28,
     fontWeight: 'bold',
     marginBottom: 10,
-    color: '#007BFF', // 파랑
+    color: '#00A86B', // 에메랄드 그린
   },
   subtitle: {
     fontSize: 18,
@@ -31,4 +31,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MyPageScreen;
+export default LoungeScreen;
