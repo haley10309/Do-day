@@ -1,7 +1,7 @@
 // components/CustomTodoModal.js
 import React from "react";
 import { 
-  Modal, View, Text, TextInput, Button, 
+  Modal, View, Text, TextInput, Button, KeyboardAvoidingView,
   TouchableWithoutFeedback, StyleSheet 
 } from "react-native";
 
@@ -19,7 +19,7 @@ export default function CustomTodoModal({
       visible={visible}
       onRequestClose={onCancel}
     >
-      <TouchableWithoutFeedback onPress={onCancel}>
+      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <View style={styles.modalOverlay}>
           <TouchableWithoutFeedback>
             <View style={styles.modalContainer}>
