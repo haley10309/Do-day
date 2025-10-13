@@ -674,9 +674,10 @@ const TodoItem = React.memo(({ todo }) => {
   <Image source={characterWalk} style={styles.character} />
 
   {/* 상점 버튼 */}
-  <TouchableOpacity style={styles.shopButton}>
+  <TouchableOpacity style={styles.shopButton} onPress={() => navigation.navigate("Shop")}>
     <Image source={shopIcon} style={styles.shopIcon} />
   </TouchableOpacity>
+
 </ImageBackground>
 
     </View>

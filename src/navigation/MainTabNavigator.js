@@ -1,7 +1,11 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import { View, Image, TouchableOpacity, Platform } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { useNavigation } from "@react-navigation/native";
+
 import TodoScreen from '../screens/TodoScreen';
+import ShopScreen from '../screens/ShopScreen';
 import LoungeScreen from '../screens/LoungeScreen';
 import TeamsScreen from '../screens/TeamsScreen';
 import MyPageScreen from '../screens/MyPageScreen';
@@ -13,10 +17,21 @@ import nav_mypage from './asset/nav_mypage.png';
 import nav_mypage_not from './asset/nav_mypage_not.png';
 import nav_lounge from './asset/nav_lounge.png';
 import nav_lounge_not from './asset/nav_lounge_not.png';
-import { useNavigation } from "@react-navigation/native";
 
 const Tab = createBottomTabNavigator();
+const TodoStack = createNativeStackNavigator();
 
+// ------------------- Todo Stack Navigator -------------------
+function TodoStackNavigator() {
+  return (
+    <TodoStack.Navigator screenOptions={{ headerShown: false }}>
+      <TodoStack.Screen name="TodoMain" component={TodoScreen} />
+      <TodoStack.Screen name="Shop" component={ShopScreen} />
+    </TodoStack.Navigator>
+  );
+}
+
+// ------------------- Floating Plus Button -------------------
 function FloatingPlusButton({ onPress }) {
   return (
     <TouchableOpacity
@@ -55,10 +70,8 @@ function FloatingPlusButton({ onPress }) {
   );
 }
 
-
+// ------------------- Main Tab Navigator -------------------
 export default function MainTabNavigator() {
-  
-  
   return (
     <Tab.Navigator
       initialRouteName="Todo"
@@ -79,9 +92,10 @@ export default function MainTabNavigator() {
         },
       }}
     >
+      {/* ---------------- Todo Tab ---------------- */}
       <Tab.Screen
         name="Todo"
-        component={TodoScreen}
+        component={TodoStackNavigator}
         options={{
           tabBarIcon: ({ focused }) => (
             <View style={{ alignItems: 'center', justifyContent: 'center' }}>
@@ -94,6 +108,7 @@ export default function MainTabNavigator() {
         }}
       />
 
+      {/* ---------------- Lounge Tab ---------------- */}
       <Tab.Screen
         name="Lounge"
         component={LoungeScreen}
@@ -109,29 +124,30 @@ export default function MainTabNavigator() {
         }}
       />
 
-      {/* 중앙 플러스: 탭 전환 막고 이벤트만 보냄 */}
+      {/* ---------------- Central Plus Button ---------------- */}
       <Tab.Screen
-  name="PlusCenter"
-  component={() => null}
-  options={{
-    tabBarButton: () => {
-      const navigation = useNavigation(); // ✅ 여기서 직접 navigation 가져오기
-      return (
-        <View style={{ flex: 1, alignItems: 'center' }}>
-          <FloatingPlusButton
-            onPress={() => {
-              // ✅ TodoScreen에 이벤트 전달 대신 직접 navigate 사용
-              navigation.navigate('Todo', { openModal: true });
-            }}
-          />
-        </View>
-      );
-    },
-  }}
-/>
+        name="PlusCenter"
+        component={() => null}
+        options={{
+          tabBarButton: () => {
+            const navigation = useNavigation();
+            return (
+              <View style={{ flex: 1, alignItems: 'center' }}>
+                <FloatingPlusButton
+                  onPress={() => {
+                    navigation.navigate('Todo', {
+                      screen: 'TodoMain',      // Stack 내부 스크린
+                      params: { openModal: true } // TodoScreen 모달 열기
+                    });
+                  }}
+                />
+              </View>
+            );
+          },
+        }}
+      />
 
-
-
+      {/* ---------------- Teams Tab ---------------- */}
       <Tab.Screen
         name="Teams"
         component={TeamsScreen}
@@ -139,7 +155,7 @@ export default function MainTabNavigator() {
           tabBarIcon: ({ focused }) => (
             <View style={{ alignItems: 'center', justifyContent: 'center' }}>
               <Image
-                source={nav_teams_not} // 활성 아이콘 있으면 교체
+                source={nav_teams_not}
                 style={{
                   width: 70,
                   height: 70,
@@ -152,6 +168,7 @@ export default function MainTabNavigator() {
         }}
       />
 
+      {/* ---------------- MyPage Tab ---------------- */}
       <Tab.Screen
         name="MyPage"
         component={MyPageScreen}

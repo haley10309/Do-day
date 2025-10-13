@@ -8,7 +8,7 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 dotenv.config(); // .env 파일 로드
 
 const app = express();
-const port = 5050; // 이 포트 번호는 그대로 유지!
+const port = 8081; // 이 포트 번호는 그대로 유지!
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -16,114 +16,105 @@ app.use(bodyParser.json());
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 // 모델은 "gemini-2.0-flash" 그대로 유지 (가장 빠르고 비용 효율적)
 const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" }); 
+const surveyResult = `
+나이: 26세
+성별: 여성
+취업 준비 현황: 1회 인턴십 수행, 취업 준비 시작한 지 1년정도
+멘탈 현황: 불안 증세 및 수면 부족
+지원 직무: 해외영업
+전공 상황: 불어불문학과 + 경영학과 복수전공
 
-app.post("/generate", async (req, res) => {
-  // ★★★ 백엔드에서 받을 변수명 수정: answer -> surveyResult, userRequest 추가 ★★★
-  const { answer: surveyResult, userRequest } = req.body; 
+[선택된 답변 요약]
+- 알림 설정: 최대한 적게 받고 싶어요
+- 앱 사용 시간대: 점심·쉬는 시간 틈틈이
+- 스트레스: 종종 쌓이곤 해요, 관리가 필요하다고 느껴요
+- 무기력도: 자주 무기력함을 느껴요
+- 수면: 거의 못 자는 편이에요 (5시간 이하)
+- 자기효능감: 자신감이 많이 부족해 도전 자체가 망설여져요
+- 집중력: 30분도 채 안 돼서 쉽게 흐트러져요
+- 운동습관: 운동은 거의 안 해요
+- 에너지 회복: 음악을 들으며 기분을 바꿔요
+- 취업 준비 기간: 1년 이상
+- 주요 활동: 자기소개서 다듬기, 전반적인 기초 쌓기(어학, 자격증 등)
+- 관심 직무: 경영/기획/전략
+`;
 
-  console.log(`[BACKEND LOG] /generate 엔드포인트 요청 수신: 
-  - 설문조사 결과 (surveyResult): ${surveyResult ? surveyResult.substring(0, 50) + '...' : '없음'}
-  - 사용자 요청 (userRequest): ${userRequest || '없음'}`);
+const userRequest = "오늘은 불안함을 줄이고 자기 효능감을 높이는 하루를 보내고 싶어요.";
 
-  // ★★★ 필수 파라미터 확인: 설문조사 결과와 사용자 요청 모두 필요 ★★★
-  if (!surveyResult || !userRequest) { 
-    console.log("[BACKEND LOG] 필수 파라미터(surveyResult 또는 userRequest)가 비어있음. 400 에러 전송.");
-    return res.status(400).json({ error: "설문조사 결과와 오늘의 목표(userRequest)가 모두 필요합니다." });
-  }
+// ✅ 설문조사 없이 바로 To-do 생성 API
+app.get("/generate", async (req, res) => {
+  console.log("[BACKEND] /generate 호출됨");
 
   try {
-    // ★★★ 바로 여기가 새로 업데이트된 Gemini 프롬프트! ★★★
-    const prompt = `당신은 사용자의 생활 습관과 요청을 바탕으로 To-do 리스트를 생성하는 AI 어시스턴트입니다.
-사용자의 생활 습관 및 선호도 설문조사 결과는 다음과 같습니다:
+    const prompt = `
+당신은 사용자의 생활 습관, 멘탈 상태, 취업 준비 상황을 바탕으로 맞춤형 To-do 리스트를 제안하는 AI 어시스턴트입니다.
+
+사용자의 설문조사 결과:
 """
 ${surveyResult}
 """
 
-이 정보를 바탕으로, 다음 사용자의 요청에 대해 **딱 5개의 맞춤형 To-do 리스트 항목을 JSON 배열 형태로 생성**해주세요.
 사용자의 요청: "${userRequest}"
 
-각 To-do 항목은 반드시 다음 세 가지 속성을 포함해야 합니다:
--   \`id\`: 각 항목을 고유하게 식별하는 짧은 문자열 (예: 'task1', 'item_b'). 앱 내부에서 사용할 고유 키 역할을 합니다.
--   \`task\`: To-do 항목의 상세 내용 (문자열).
--   \`completed\`: 이 To-do 항목의 초기 완료 상태를 나타내는 불리언 값 (무조건 \`false\`로 설정).
+이 정보를 바탕으로 **딱 5개의 To-do 리스트 항목을 각각 17자내로 JSON 배열 형태로 생성**해주세요.
 
-**응답은 반드시 JSON 배열 형태여야 하며, 추가적인 설명이나 문구는 절대로 포함하지 마세요.**
-(아무런 서두나 마무리 문장 없이 오직 JSON 텍스트만 출력)
+각 항목은 반드시 다음 세 가지 속성을 포함해야 합니다:
+- "id": 고유 식별자 (예: "task1")
+- "task": 구체적이고 실천 가능한 한 문장의 할 일
+- "completed": 초기값은 항상 false
 
-**예시 JSON 형식:**
-\`\`\`json
-[
-  {
-    "id": "todo1",
-    "task": "아침 식사 준비 (간단한 토스트와 커피)",
-    "completed": false
-  },
-  {
-    "id": "todo2",
-    "task": "오전 업무 시작 전 이메일 확인 및 중요도 분류",
-    "completed": false
-  },
-  {
-    "id": "todo3",
-    "task": "점심 식사 후 10분간 짧은 산책",
-    "completed": false
-  },
-  {
-    "id": "todo4",
-    "task": "프로젝트 A의 보고서 초안 작성",
-    "completed": false
-  },
-  {
-    "id": "todo5",
-    "task": "퇴근 후 다음 날 To-do 리스트 미리 작성",
-    "completed": false
-  }
-]
-\`\`\`
+응답은 오직 JSON 배열 형태로만 주세요. 설명, 문장, 코드블록 없이 JSON만!
 `;
-    
-    console.log(`[BACKEND LOG] Gemini API 호출 준비. Prompt 길이: ${prompt.length}자.`); 
-    
-    // Gemini API 호출 시작! 이 부분에서 fetch failed 에러가 나면 네트워크 문제!
-    const result = await model.generateContent(prompt); 
-    
-    console.log("[BACKEND LOG] Gemini API 응답 수신 완료!"); 
-    let text = result.response.text(); // Gemini가 준 텍스트 응답
 
-    // ★★★ Gemini가 JSON을 마크다운 코드 블록으로 줬을 경우, 그걸 제거하는 로직 ★★★
-    if (text.startsWith('```json') && text.endsWith('```')) {
-        text = text.substring(7, text.length - 3).trim();
+    console.log(`[BACKEND LOG] Gemini API 호출 준비. Prompt 길이: ${prompt.length}자.`);
+
+    const result = await model.generateContent(prompt);
+    console.log("[BACKEND LOG] Gemini API 호출 직후");
+
+    let text = result.response.text();
+
+    console.log("[BACKEND LOG] Gemini 응답:", text);
+
+    // JSON 마크다운 코드블록 제거
+    if (text.startsWith("```json") && text.endsWith("```")) {
+      text = text.substring(7, text.length - 3).trim();
     }
-    
-    // ★★★ Gemini 응답 텍스트를 JSON으로 파싱! ★★★
+
     let parsedTodos;
     try {
       parsedTodos = JSON.parse(text);
-      // JSON 형식이 아니거나 배열이 아니면 에러 처리 (프롬프트가 잘 작동하는지 확인하는 과정)
       if (!Array.isArray(parsedTodos)) {
         throw new Error("Gemini 응답이 유효한 JSON 배열 형식이 아닙니다.");
       }
     } catch (parseError) {
-      console.error(`[BACKEND ERROR] Gemini 응답 JSON 파싱 실패:`, parseError);
-      console.error(`[BACKEND ERROR] 파싱 실패 원본 텍스트 (Raw response from Gemini):`, text);
-      return res.status(500).json({ error: "Gemini 응답을 JSON으로 변환하는 데 실패했습니다.", originalResponse: text });
+      console.error("[BACKEND ERROR] Gemini 응답 JSON 파싱 실패:", parseError);
+      console.error("[BACKEND ERROR] Raw response from Gemini:", text);
+      return res.status(500).json({ error: "Gemini 응답 JSON 파싱 실패", originalResponse: text });
     }
 
-    console.log("[BACKEND LOG] 클라이언트에 200 응답 전송.");
-    res.json({ todos: parsedTodos }); // 파싱된 JSON 배열을 클라이언트에 보낸다!
+    res.json({ todos: parsedTodos });
   } catch (error) {
-    // Gemini API 호출 실패 로그
-    console.error(`[BACKEND ERROR] Gemini API 호출 실패:`, error);
-    console.log("[BACKEND LOG] 클라이언트에 500 에러 전송.");
-    res.status(500).json({ error: "서버 오류: " + error.message }); // 에러 메시지도 함께 전달
+    console.error("[BACKEND ERROR] Gemini API 호출 실패:", error);
+    res.status(500).json({ error: "To-do 생성 실패: " + error.message });
   }
+});
+app.get("/generate_test", (req, res) => {
+  console.log("[BACKEND] /generate 호출됨 (더미 데이터)");
+  const dummyTodos = [
+    { id: "task1", task: "테스트 1", completed: false },
+    { id: "task2", task: "테스트 2", completed: false },
+    { id: "task3", task: "테스트 3", completed: false },
+    { id: "task4", task: "테스트 4", completed: false },
+    { id: "task5", task: "테스트 5", completed: false },
+  ];
+  res.json({ todos: dummyTodos });
 });
 
 // server.js 하단에 추가
 // server.js 파일 내 congrats 엔드포인트 수정
 
 app.post("/congrats", async (req, res) => {
-    const { surveyResult, task } = req.body;
+    const { task } = req.body;
   
     if (!surveyResult || !task) {
       return res.status(400).json({ error: "surveyResult와 task가 필요합니다." });
@@ -168,6 +159,10 @@ app.post("/congrats", async (req, res) => {
       res.status(500).json({ error: "축하 메시지 생성 실패: " + error.message, debug: error.stack });
     }
   });
+  app.get("/", (req, res) => {
+    res.send("서버가 정상 실행 중입니다!");
+  });
+  
 
 app.listen(port, '0.0.0.0', () => { 
   console.log(`🚀 [BACKEND LOG] 서버 실행 중: http://localhost:${port}`);
