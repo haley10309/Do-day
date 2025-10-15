@@ -12,6 +12,7 @@ const { width, height } = Dimensions.get("window");
 
 export default function LoungeScreen() {
   const navigation = useNavigation();
+  
 
   return (
     <View style={styles.container}>
@@ -23,19 +24,19 @@ export default function LoungeScreen() {
         {/* ⭐ 스타의 삶 버튼 */}
         <TouchableOpacity
           style={styles.starLifeBtn}
-          onPress={() => navigation.navigate("StarLife")}
+          onPress={() => navigation.navigate("Star")}
         />
 
         {/* 🔮 타로의 집 버튼 */}
         <TouchableOpacity
           style={styles.tarotBtn}
-          onPress={() => navigation.navigate("Tarot")}
+          onPress={() => navigation.navigate("Taro")}
         />
 
         {/* 🧠 두뇌 트레이닝 버튼 */}
         <TouchableOpacity
           style={styles.brainBtn}
-          onPress={() => navigation.navigate("BrainTraining")}
+          onPress={() => navigation.navigate("LevelTest")}
         />
       </ImageBackground>
     </View>
@@ -72,9 +73,9 @@ const styles = StyleSheet.create({
   },
   brainBtn: {
     position: "absolute",
-    top: height * 0.55,
+    top: height * 0.5,
     left: width * 0.15,
-    width: width * 0.4,
+    width: width * 0.6,
     height: height * 0.08,
   },
 });

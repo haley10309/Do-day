@@ -17,6 +17,7 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 // 모델은 "gemini-2.0-flash" 그대로 유지 (가장 빠르고 비용 효율적)
 const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" }); 
 const surveyResult = `
+이름 : ptk
 나이: 26세
 성별: 여성
 취업 준비 현황: 1회 인턴십 수행, 취업 준비 시작한 지 1년정도

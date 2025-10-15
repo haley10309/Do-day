@@ -38,6 +38,20 @@ function TodoStackNavigator() {
     </TodoStack.Navigator>
   );
 }
+// ------------------- Lounge Stack Navigator -------------------
+const LoungeStack = createNativeStackNavigator();
+
+function LoungeStackNavigator() {
+  return (
+    <LoungeStack.Navigator screenOptions={{ headerShown: false }}>
+      <LoungeStack.Screen name="LoungeMain" component={LoungeScreen} />
+      <LoungeStack.Screen name="Star" component={StarLifeScreen} />
+      <LoungeStack.Screen name="Taro" component={TaroScreen} />
+      <LoungeStack.Screen name="LevelTest" component={LoungeLevelTestScreen} />
+    </LoungeStack.Navigator>
+  );
+}
+
 
 // ------------------- Floating Plus Button -------------------
 function FloatingPlusButton({ onPress }) {
@@ -119,7 +133,7 @@ export default function MainTabNavigator() {
       {/* ---------------- Lounge Tab ---------------- */}
       <Tab.Screen
         name="Lounge"
-        component={LoungeScreen}
+        component={LoungeStackNavigator}
         options={{
           tabBarIcon: ({ focused }) => (
             <View style={{ alignItems: 'center', justifyContent: 'center' }}>
