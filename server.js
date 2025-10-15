@@ -3,15 +3,29 @@ import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
 import dotenv from "dotenv";
+import path from "path";
+import { fileURLToPath } from "url";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
 dotenv.config(); // .env 파일 로드
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 const app = express();
-const port = 8081; // 이 포트 번호는 그대로 유지!
+// const port = 8081; // 이 포트 번호는 그대로 유지!
+const port = 8082;
 
 app.use(cors());
 app.use(bodyParser.json());
+
+// 정적 파일 서빙
+app.use("/static", express.static(path.join(__dirname, "src")));
+
+// 마이페이지 엔드포인트
+app.get("/mypage", (req, res) => {
+  res.sendFile(path.join(__dirname, "src", "myPage.html"));
+});
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 // 모델은 "gemini-2.0-flash" 그대로 유지 (가장 빠르고 비용 효율적)

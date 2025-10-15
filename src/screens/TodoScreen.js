@@ -43,8 +43,11 @@ const SCREEN_WIDTH = Dimensions.get("window").width;
 
 
 export default function TodoOfficeScreen({ navigation, route }) {
-  const MAC_IP_ADDRESS = '192.168.11.7';
-  const PORT = 8081;
+  // const MAC_IP_ADDRESS = '192.168.11.7';
+  // const PORT = 8081;
+  // const MAC_IP_ADDRESS = '172.30.1.78';
+  const MAC_IP_ADDRESS = '192.0.0.2';
+  const PORT = 8082;
 
   const [todos, setTodos] = useState([]);
   const [loading, setLoading] = useState(false);

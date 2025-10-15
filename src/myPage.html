@@ -351,7 +351,7 @@
         <div class="profile-inner">
           <div class="avatar">
             <img
-              src="../src/screens/img/myPage/profile.png"
+              src="/static/screens/img/myPage/profile.png"
               alt="프로필 이미지"
             />
           </div>
@@ -359,7 +359,7 @@
           <div class="name-row">
             <img
               class="badge"
-              src="../src/screens/img/myPage/premium_icon.png"
+              src="/static/screens/img/myPage/premium_icon.png"
               alt=""
             />
             <span class="name">취준생 브라운</span>
@@ -399,7 +399,7 @@
             role="button"
             tabindex="0"
             aria-label="주간 현황 – 상세기록으로 이동"
-            data-link="myPage_recordDetail.html"
+            data-link="/static/myPage_recordDetail.html"
           >
             <div class="days">
               <div>
@@ -408,7 +408,7 @@
                 </div>
                 <img
                   class="medal"
-                  src="../src/screens/img/myPage/nothing_completed.png"
+                  src="/static/screens/img/myPage/nothing_completed.png"
                   alt="미완료"
                 />
               </div>
@@ -416,7 +416,7 @@
                 <div class="day-label"><span class="date">15</span> 월</div>
                 <img
                   class="medal"
-                  src="../src/screens/img/myPage/all_completed.png"
+                  src="/static/screens/img/myPage/all_completed.png"
                   alt="전체 완료"
                 />
               </div>
@@ -424,7 +424,7 @@
                 <div class="day-label"><span class="date">16</span> 화</div>
                 <img
                   class="medal"
-                  src="../src/screens/img/myPage/nothing_completed.png"
+                  src="/static/screens/img/myPage/nothing_completed.png"
                   alt="미완료"
                 />
               </div>
@@ -432,7 +432,7 @@
                 <div class="day-label"><span class="date">17</span> 수</div>
                 <img
                   class="medal"
-                  src="../src/screens/img/myPage/all_completed.png"
+                  src="/static/screens/img/myPage/all_completed.png"
                   alt="전체 완료"
                 />
               </div>
@@ -440,7 +440,7 @@
                 <div class="day-label"><span class="date">18</span> 목</div>
                 <img
                   class="medal"
-                  src="../src/screens/img/myPage/partial_completed.png"
+                  src="/static/screens/img/myPage/partial_completed.png"
                   alt="일부 완료"
                 />
               </div>
@@ -448,7 +448,7 @@
                 <div class="day-label"><span class="date">19</span> 금</div>
                 <img
                   class="medal"
-                  src="../src/screens/img/myPage/all_completed.png"
+                  src="/static/screens/img/myPage/all_completed.png"
                   alt="전체 완료"
                 />
               </div>
@@ -458,7 +458,7 @@
                 </div>
                 <img
                   class="medal"
-                  src="../src/screens/img/myPage/nothing_completed.png"
+                  src="/static/screens/img/myPage/nothing_completed.png"
                   alt="미완료"
                 />
               </div>
@@ -505,6 +505,17 @@
     </nav>
 
     <script>
+      // 임베드 모드(embed=1)일 때는 하단 네비 숨김 처리
+      (function () {
+        try {
+          var isEmbed = /[?&]embed=1(?!\d)/.test(location.search);
+          if (isEmbed) {
+            var style = document.createElement('style');
+            style.innerHTML = '.nav{display:none !important;} main{padding-bottom:24px !important;}';
+            document.head.appendChild(style);
+          }
+        } catch (e) {}
+      })();
       // 토스트
       let __t;
       function toast(msg) {
@@ -557,11 +568,14 @@
         if (!btn) return;
         btn.setAttribute("role", "button");
         btn.setAttribute("tabindex", "0");
-        btn.addEventListener("click", () => (location.href = "myPage_aiReport.html"));
+        btn.addEventListener(
+          "click",
+          () => (location.href = "/static/myPage_aiReport.html")
+        );
         btn.addEventListener("keydown", (e) => {
           if (e.key === "Enter" || e.key === " ") {
             e.preventDefault();
-            location.href = "myPage_aiReport.html";
+            location.href = "/static/myPage_aiReport.html";
           }
         });
       })();
