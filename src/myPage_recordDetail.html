@@ -85,6 +85,7 @@
       }
       .calendar {
         padding: 12px;
+        padding-top: 20px;
         border: 2px solid var(--stroke);
         border-radius: 14px;
         background: #fffdf9;
@@ -124,7 +125,7 @@
       .grid {
         display: grid;
         grid-template-columns: repeat(7, 1fr);
-        gap: 6px;
+        gap: 12px;
         text-align: center;
         align-items: start;
       }
@@ -140,21 +141,30 @@
         color: #3a77c9;
       }
       .day {
-        height: 46px;
+        height: 60px;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: flex-start;
         gap: 2px;
-        font-size: 12px;
-        color: #6f645a;
+        font-size: 13px;
+        color: #6a7285;
       }
       .day .num {
+        font-size: 14px;
         font-weight: 600;
+        color: var(--main-text);
       }
       .day .medal {
-        width: 24px;
-        height: 24px;
+        width: 40px;
+        height: 40px;
+        margin-top: 1px;
+        margin-bottom: 10px;
+      }
+      .day .partial {
+        width: 30px;
+        height: 30px;
+        margin-top: 5px;
       }
 
       .legend {
@@ -242,7 +252,7 @@
   <body>
     <header class="header">
       <button class="back" aria-label="뒤로" onclick="history.back()">
-        <img src="../src/screens/img/myPage/back_button.png" alt="" />
+        <img src="/static/screens/img/myPage/back_button.png" alt="" />
       </button>
     </header>
 
@@ -254,7 +264,7 @@
           onclick="alert('이전 달')"
         >
           <img
-            src="../src/screens/img/myPage/calendar_back_button_activated.png"
+            src="/static/screens/img/myPage/calendar_back_button_activated.png"
             alt=""
           />
         </button>
@@ -267,7 +277,7 @@
           onclick="alert('다음 달')"
         >
           <img
-            src="../src/screens/img/myPage/calendar_forward_button_deactivated.png"
+            src="/static/screens/img/myPage/calendar_forward_button_deactivated.png"
             alt=""
           />
         </button>
@@ -291,29 +301,38 @@
             <span class="num" style="opacity: 0.4">31</span>
           </div>
           <div class="day">
-            <span class="num">1</span
+            <span class="num">1</span>
+          </div>
+          <div class="day">
+            <span class="num">2</span
             ><img
               class="medal"
-              src="../src/screens/img/myPage/all_completed.png"
+              src="/static/screens/img/myPage/all_completed.png"
               alt="완료"
             />
           </div>
-          <div class="day"><span class="num">2</span></div>
           <div class="day">
             <span class="num">3</span
             ><img
               class="medal"
-              src="../src/screens/img/myPage/all_completed.png"
+              src="/static/screens/img/myPage/all_completed.png"
               alt="완료"
             />
           </div>
-          <div class="day"><span class="num">4</span></div>
+          <div class="day">
+            <span class="num">4</span
+            ><img
+              class="medal"
+              src="/static/screens/img/myPage/all_completed.png"
+              alt="완료"
+            />
+          </div>
           <div class="day"><span class="num">5</span></div>
           <div class="day">
             <span class="num">6</span
             ><img
-              class="medal"
-              src="../src/screens/img/myPage/partial_completed.png"
+              class="partial"
+              src="/static/screens/img/myPage/partial_completed.png"
               alt="일부"
             />
           </div>
@@ -323,7 +342,7 @@
             <span class="num" style="color: #d46255">7</span
             ><img
               class="medal"
-              src="../src/screens/img/myPage/all_completed.png"
+              src="/static/screens/img/myPage/all_completed.png"
               alt="완료"
             />
           </div>
@@ -332,16 +351,23 @@
             <span class="num">9</span
             ><img
               class="medal"
-              src="../src/screens/img/myPage/all_completed.png"
+              src="/static/screens/img/myPage/all_completed.png"
               alt="완료"
             />
           </div>
-          <div class="day"><span class="num">10</span></div>
+          <div class="day">
+            <span class="num">10</span
+            ><img
+              class="partial"
+              src="/static/screens/img/myPage/half_completed.png"
+              alt="일부"
+            />
+          </div>
           <div class="day">
             <span class="num">11</span
             ><img
               class="medal"
-              src="../src/screens/img/myPage/all_completed.png"
+              src="/static/screens/img/myPage/all_completed.png"
               alt="완료"
             />
           </div>
@@ -349,8 +375,8 @@
           <div class="day">
             <span class="num" style="color: #3a77c9">13</span
             ><img
-              class="medal"
-              src="../src/screens/img/myPage/partial_completed.png"
+              class="partial"
+              src="/static/screens/img/myPage/partial_completed.png"
               alt="일부"
             />
           </div>
@@ -360,28 +386,111 @@
             <span class="num" style="color: #d46255">14</span
             ><img
               class="medal"
-              src="../src/screens/img/myPage/all_completed.png"
+              src="/static/screens/img/myPage/all_completed.png"
               alt="완료"
             />
           </div>
-          <div class="day"><span class="num">15</span></div>
+          <div class="day">
+            <span class="num">15</span
+            ><img
+              class="medal"
+              src="/static/screens/img/myPage/all_completed.png"
+              alt="완료"
+            />
+          </div>
           <div class="day"><span class="num">16</span></div>
-          <div class="day"><span class="num">17</span></div>
+          <div class="day">
+            <span class="num">17</span
+            ><img
+              class="medal"
+              src="/static/screens/img/myPage/all_completed.png"
+              alt="완료"
+            />
+          </div>
           <div class="day">
             <span class="num">18</span
             ><img
-              class="medal"
-              src="../src/screens/img/myPage/partial_completed.png"
+              class="partial"
+              src="/static/screens/img/myPage/quarter_completed.png"
               alt="일부"
             />
           </div>
-          <div class="day"><span class="num">19</span></div>
+          <div class="day">
+            <span class="num">19</span
+            ><img
+              class="partial"
+              src="/static/screens/img/myPage/3quarters_completed.png"
+              alt="완료"
+            />
+          </div>
           <div class="day"><span class="num">20</span></div>
+
+          <!-- 4주차 -->
+          <div class="day">
+            <span class="num" style="color: #d46255">21</span>
+          </div>
+          <div class="day">
+            <span class="num">22</span
+            ><img
+              class="medal"
+              src="/static/screens/img/myPage/all_completed.png"
+              alt="완료"
+            />
+          </div>
+          <div class="day">
+            <span class="num">23</span
+            ><img
+              class="medal"
+              src="/static/screens/img/myPage/all_completed.png"
+              alt="완료"
+            />
+          </div>
+          <div class="day">
+            <span class="num">24</span
+            ><img
+              class="medal"
+              src="/static/screens/img/myPage/all_completed.png"
+              alt="완료"
+            />
+          </div>
+          <div class="day">
+            <span class="num">25</span
+            ><img
+              class="partial"
+              src="/static/screens/img/myPage/half_completed.png"
+              alt="일부"
+            />
+          </div>
+          <div class="day">
+            <span class="num">26</span
+            ><img
+              class="partial"
+              src="/static/screens/img/myPage/half_completed.png"
+              alt="일부"
+            />
+          </div>
+          <div class="day"><span class="num">27</span></div>
+
+          <!-- 5주차 -->
+          <div class="day">
+            <span class="num" style="color: #d46255">28</span>
+          </div>
+          <div class="day">
+            <span class="num">29</span
+            ><img
+              class="medal"
+              src="/static/screens/img/myPage/all_completed.png"
+              alt="완료"
+            />
+          </div>
+          <div class="day"><span class="num">30</span></div>
+          <div class="day"><span class="num" style="opacity: 0.4">1</span></div>
+          <div class="day"><span class="num" style="opacity: 0.4">2</span></div>
+          <div class="day"><span class="num" style="opacity: 0.4">3</span></div>
+          <div class="day"><span class="num" style="opacity: 0.4">4</span></div>
 
           <!-- 나머지 주차는 필요 시 이어서 구성 -->
         </div>
-
-        <div class="legend" aria-hidden="true">✔︎ 완료 · ◔ 일부 · ○ 미완</div>
       </section>
 
       <!-- 9월 19일 리스트 섹션 -->
@@ -392,65 +501,65 @@
             <div class="item ai">
               <img
                 class="icon"
-                src="../src/screens/img/myPage/todo_icon_ai.png"
+                src="/static/screens/img/myPage/todo_icon_ai.png"
                 alt="할 일 아이콘"
               />
-              <div class="text">자기 개발 책 한 장 읽기</div>
+              <div class="text">명상 15분 하기</div>
               <img
                 class="done"
-                src="../src/screens/img/myPage/checked_icon.png"
+                src="/static/screens/img/myPage/checked_icon.png"
                 alt="완료"
               />
             </div>
             <div class="item ai">
               <img
                 class="icon"
-                src="../src/screens/img/myPage/todo_icon_ai.png"
+                src="/static/screens/img/myPage/todo_icon_ai.png"
                 alt="할 일 아이콘"
               />
               <div class="text">감사한 일 5가지 적어보기</div>
               <img
                 class="done"
-                src="../src/screens/img/myPage/checked_icon.png"
+                src="/static/screens/img/myPage/checked_icon.png"
                 alt="완료"
               />
             </div>
             <div class="item self">
               <img
                 class="icon"
-                src="../src/screens/img/myPage/todo_icon_self.png"
+                src="/static/screens/img/myPage/todo_icon_self.png"
                 alt="메모 아이콘"
               />
-              <div class="text">명상 15분 하기</div>
+              <div class="text">A 기업 분석</div>
               <img
                 class="done"
-                src="../src/screens/img/myPage/checked_icon.png"
-                alt="완료"
-              />
-            </div>
-            <div class="item ai">
-              <img
-                class="icon"
-                src="../src/screens/img/myPage/todo_icon_ai.png"
-                alt="메모 아이콘"
-              />
-              <div class="text">명상 15분 하기</div>
-              <img
-                class="done"
-                src="../src/screens/img/myPage/checked_icon.png"
+                src="/static/screens/img/myPage/checked_icon.png"
                 alt="완료"
               />
             </div>
             <div class="item self">
               <img
                 class="icon"
-                src="../src/screens/img/myPage/todo_icon_self.png"
+                src="/static/screens/img/myPage/todo_icon_self.png"
                 alt="메모 아이콘"
               />
-              <div class="text">명상 15분 하기</div>
+              <div class="text">포트폴리오 피드백 받기</div>
               <img
                 class="done"
-                src="../src/screens/img/myPage/checked_icon.png"
+                src="/static/screens/img/myPage/checked_icon.png"
+                alt="완료"
+              />
+            </div>
+            <div class="item self">
+              <img
+                class="icon"
+                src="/static/screens/img/myPage/todo_icon_self.png"
+                alt="메모 아이콘"
+              />
+              <div class="text">경제 스터디 준비</div>
+              <img
+                class="done"
+                src="/static/screens/img/myPage/checked_icon.png"
                 alt="완료"
               />
             </div>
