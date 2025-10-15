@@ -109,7 +109,7 @@
       .kpi-grid {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: 10px;
+        gap: 14px;
         margin-top: 8px;
       }
       .kpi {
@@ -121,6 +121,7 @@
         gap: 10px;
         padding-top: 16;
         padding-left: 16;
+        border-radius: 14px;
       }
       .kpi h4 {
         /*일일 평균 달성률*/
@@ -136,8 +137,9 @@
         color: var(--main-text);
       }
       .kpi .sub {
-        font-size: 12px;
-        color: #8a6a49;
+        font-size: 20px;
+        color: var(--sub-text);
+        font-weight: 500;
       }
       .kpi .right {
         min-width: 84px;
@@ -154,7 +156,7 @@
         height: 108px;
         border-radius: 50%;
         background: radial-gradient(closest-side, #ffeed6 69%, #0000 70% 100%),
-          conic-gradient(#FFB744 calc(var(--val) * 360deg), #FFF2DD 0);
+          conic-gradient(#ffb744 calc(var(--val) * 360deg), #fff2dd 0);
         position: relative;
       }
       .donut::after {
@@ -171,14 +173,13 @@
       .kpi-mini {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: 10px;
+        gap: 14px;
         margin-top: 10px;
       }
       .kpi-mini .cell {
-        padding: 12px;
-        border-radius: 12px;
-        background: #ffeed6;
-        border: 1px solid #f3ddc1;
+        padding: 30px 18px 30px;
+        border-radius: 14px;
+        background: #ffe5bc;
       }
       .kpi-mini .label {
         font-size: 12px;
@@ -197,7 +198,7 @@
 
       /* 텍스트 리포트 */
       .text-report {
-        margin-top: 12px;
+        margin-top: 15px;
         padding: 14px 14px;
         border: 2px solid var(--stroke);
         border-radius: 14px;
@@ -223,112 +224,217 @@
         margin-top: 12px;
         padding: 14px;
         border-radius: 16px;
-        background: #ffeed6;
-        border: 1px solid #f3ddc1;
+        background: #ffe5bc;
       }
       .graph-card h4 {
         margin: 0 0 10px 0;
-        font-size: 14px;
-        font-weight: 800;
+        font-size: 18px;
+        font-weight: 600;
+        color: var(--main-text);
       }
 
-      /* 막대 그래프 (요일) */
+      /* 차트 컨테이너 */
+      .chart-container {
+        display: flex;
+        margin-top: 16px;
+        height: 180px; /* 160px에서 180px로 증가 */
+      }
+
+      /* Y축 라벨 */
+      .y-axis {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 100%;
+        padding-right: 8px;
+        margin-top: 8px; /* 8px에서 16px로 증가하여 Y축을 더 위로 */
+        padding-bottom: 20px;
+        width: 24px;
+      }
+      .y-label {
+        font-size: 11px;
+        color: #8a6a49;
+        font-weight: 500;
+        text-align: right;
+        line-height: 1;
+        height: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+      }
+
+      /* 차트 영역 */
+      .chart-area {
+        flex: 1;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        margin-left: 8px;
+      }
+
+      /* 그리드 라인 */
+      .grid-lines {
+        position: absolute;
+        top: 16px; /* 8px에서 16px로 증가하여 Y축과 맞춤 */
+        left: 8px;
+        right: 8px;
+        bottom: 20px; /* 요일 라벨 공간 제외 */
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+      .grid-line {
+        height: 1px;
+        background: rgba(255, 255, 255, 0.6);
+        border-top: 1px dashed rgba(255, 255, 255, 0.8);
+      }
+
+      /* 막대 그래프 */
       .bars {
-        --bar: #f2a23c;
-        --bar-soft: rgba(242, 162, 60, 0.25);
+        --bar: #ffda9e;
+        --bar-high: #ffb744;
+        --bar-soft: rgba(242, 162, 60, 0.3);
         display: grid;
         grid-template-columns: repeat(7, 1fr);
-        gap: 10px;
+        gap: 12px;
         align-items: end;
-        height: 140px;
-        margin-top: 6px;
+        height: calc(100% - 20px); /* 요일 라벨 공간 제외 */
+        padding: 0 8px 0 8px; /* 하단 패딩 제거 */
+        position: relative;
+        z-index: 2;
+        margin-bottom: -3px; /* 요일 라벨을 위한 마진 */
       }
       .bar {
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 6px;
+        gap: 8px;
       }
       .bar .rect {
-        width: 18px;
-        border-radius: 6px 6px 0 0;
+        width: 24px;
+        border-radius: 8px 8px 0 0;
         background: var(--bar-soft);
         height: 40px;
+        transition: all 0.3s ease;
       }
+
       .bar[data-h="5"] .rect {
-        height: 110px;
-        background: var(--bar);
+        height: 120px;
+        background: var(--bar-high);
       }
       .bar[data-h="4"] .rect {
-        height: 90px;
+        height: 96px;
         background: var(--bar);
       }
       .bar[data-h="3"] .rect {
-        height: 70px;
+        height: 72px;
         background: var(--bar);
       }
       .bar[data-h="2"] .rect {
-        height: 52px;
+        height: 48px;
         background: var(--bar);
       }
       .bar[data-h="1"] .rect {
-        height: 34px;
+        height: 24px;
         background: var(--bar);
       }
       .bar .label {
-        font-size: 12px;
-        color: #7a6048;
+        font-size: 13px;
+        color: #8a6a49;
+        font-weight: 500;
+        margin-top: 2px; /* 요일 라벨과 막대 사이 간격 */
       }
 
-      /* 미니 스파크(평균 완료 시간) */
-      .spark-wrap {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 10px;
-        margin-top: 10px;
+      /* 평균 완료 시간 차트 */
+      .time-chart-container {
+        margin-top: 16px;
+        height: 120px;
+        position: relative;
       }
-      .spark {
-        padding: 10px;
-        border-radius: 12px;
-        background: #fffdf9;
-        border: 1px dashed #f3ddc1;
+
+      .time-bars {
+        display: flex;
+        align-items: flex-end;
+        height: 80px;
+        padding: 0 8px;
+        gap: 8px;
       }
-      .spark .chart {
-        height: 54px;
+
+      .time-group {
         display: flex;
         align-items: flex-end;
         gap: 4px;
+        flex: 1;
+        justify-content: center;
       }
-      .spark .chart i {
-        display: block;
-        width: 6px;
-        background: #f2a23c;
-        border-radius: 3px;
+
+      .time-group.empty {
+        /* 6 a.m. 그룹은 빈 공간 */
       }
-      .spark .chart i:nth-child(1) {
-        height: 10px;
+
+      .time-bar {
+        width: 8px;
+        background: #ffda9e;
+        border-radius: 4px 4px 0 0;
+        transition: all 0.3s ease;
       }
-      .spark .chart i:nth-child(2) {
-        height: 14px;
+
+      .time-bar.low {
+        height: 20px;
       }
-      .spark .chart i:nth-child(3) {
-        height: 22px;
+
+      .time-bar.medium {
+        height: 40px;
       }
-      .spark .chart i:nth-child(4) {
-        height: 12px;
+
+      .time-bar.high {
+        height: 60px;
       }
-      .spark .chart i:nth-child(5) {
-        height: 36px;
+
+      .time-bar.highest {
+        height: 80px;
+        background: #ffb744;
       }
-      .spark .chart i:nth-child(6) {
-        height: 18px;
-      }
-      .spark .axis {
+
+      .time-axis {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
         display: flex;
         justify-content: space-between;
+        padding: 0 8px;
+        height: 40px;
+        align-items: flex-end;
+      }
+
+      .time-tick {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        flex: 1;
+      }
+
+      .tick-line {
+        width: 1px;
+        height: 8px;
+        background: #8a6a49;
+        margin-bottom: 4px;
+      }
+
+      .time-label {
         font-size: 11px;
         color: #8a6a49;
-        margin-top: 6px;
+        font-weight: 500;
+        text-align: center;
+      }
+
+      .time-unit {
+        font-size: 11px;
+        color: #8a6a49;
+        font-weight: 500;
+        margin-left: 8px;
       }
 
       /* 구분 여백 */
@@ -345,7 +451,7 @@
     <header class="header">
       <button class="back" aria-label="뒤로" onclick="history.back()">
         <!-- 필요 시 아이콘 경로 교체 -->
-        <img src="../src/screens/img/myPage/back_button.png" alt="" />
+        <img src="/static/screens/img/myPage/back_button.png" alt="" />
       </button>
       <div class="title">AI 리포트</div>
     </header>
@@ -369,11 +475,9 @@
         <div class="kpi">
           <div>
             <h4>9월 달성률</h4>
-            <div class="big" style="font-size: 22px">
-              13<span
-                style="font-weight: 600; font-size: 0.75em; color: #7a6048"
-                >일 / 31일</span
-              >
+            <div class="big" style="font-size: 32px; color: #ff9d00">
+              13<span style="font-weight: 700; font-size: 0.8em">일</span>
+              <span class="sub">/30일</span>
             </div>
           </div>
         </div>
@@ -382,7 +486,7 @@
         <div class="kpi">
           <div>
             <h4>전 달 대비</h4>
-            <div class="big" style="font-size: 22px; color: #f29943">
+            <div class="big" style="font-size: 32px; color: #ff9d00">
               16<span style="font-weight: 700; font-size: 0.8em">%</span>
               <span class="sub">증가</span>
             </div>
@@ -393,50 +497,66 @@
       <!-- 텍스트 리포트 -->
       <section class="text-report section">
         <h3>AI가 분석한 한달 리포트</h3>
-        <p>
-          안녕하세요, 취준생 브라운님! 지난 한 달 동안 80%의 할당량 완료율과
-          활성 일수 13일을 기록하며 꾸준히 목표를 향해 나아가셨네요. 특히 지난달
-          대비 완료율이 16%나 증가한 점은 칭찬할 만합니다. 다만, 아직 무리한
-          계획으로 인해 미뤄지는 항목들이 있어, 18%의 이월률을 낮추는 것이 다음
-          목표가 되겠네요. 최근 3일간의 높은 완료율을 고려해, 다음 달에는 업무
-          난이도를 조금씩 높여보는 것을 추천합니다. 다만, 브라운님의 수면 부족과
-          불안 증세를 고려하여, 오전 시간을 활용해 비교적 쉬운 업무부터
-          시작하고, 점차 집중력을 높여나가는 것은 어떨까요? 자신감을 갖고 꾸준히
-          노력하는 영업왕님을 항상 응원합니다!
-        </p>
+        <p></p>
       </section>
 
       <!-- 평균 달성일 그래프 -->
       <section class="graph-card section">
         <h4>평균 달성일</h4>
-        <div class="bars">
-          <div class="bar" data-h="1">
-            <div class="rect"></div>
-            <div class="label">일</div>
+        <div class="chart-container">
+          <!-- Y축 라벨 -->
+          <div class="y-axis">
+            <span class="y-label">5</span>
+            <span class="y-label">4</span>
+            <span class="y-label">3</span>
+            <span class="y-label">2</span>
+            <span class="y-label">1</span>
+            <span class="y-label">0</span>
           </div>
-          <div class="bar" data-h="2">
-            <div class="rect"></div>
-            <div class="label">월</div>
-          </div>
-          <div class="bar" data-h="3">
-            <div class="rect"></div>
-            <div class="label">화</div>
-          </div>
-          <div class="bar" data-h="5">
-            <div class="rect"></div>
-            <div class="label">수</div>
-          </div>
-          <div class="bar" data-h="4">
-            <div class="rect"></div>
-            <div class="label">목</div>
-          </div>
-          <div class="bar" data-h="3">
-            <div class="rect"></div>
-            <div class="label">금</div>
-          </div>
-          <div class="bar" data-h="2">
-            <div class="rect"></div>
-            <div class="label">토</div>
+
+          <!-- 그래프 영역 -->
+          <div class="chart-area">
+            <!-- 그리드 라인 -->
+            <div class="grid-lines">
+              <div class="grid-line"></div>
+              <div class="grid-line"></div>
+              <div class="grid-line"></div>
+              <div class="grid-line"></div>
+              <div class="grid-line"></div>
+              <div class="grid-line"></div>
+            </div>
+
+            <!-- 막대 그래프 -->
+            <div class="bars">
+              <div class="bar" data-h="2" data-day="일">
+                <div class="rect"></div>
+                <div class="label">일</div>
+              </div>
+              <div class="bar" data-h="5" data-day="월">
+                <div class="rect"></div>
+                <div class="label">월</div>
+              </div>
+              <div class="bar" data-h="1" data-day="화">
+                <div class="rect"></div>
+                <div class="label">화</div>
+              </div>
+              <div class="bar" data-h="4" data-day="수">
+                <div class="rect"></div>
+                <div class="label">수</div>
+              </div>
+              <div class="bar" data-h="3" data-day="목">
+                <div class="rect"></div>
+                <div class="label">목</div>
+              </div>
+              <div class="bar" data-h="3" data-day="금">
+                <div class="rect"></div>
+                <div class="label">금</div>
+              </div>
+              <div class="bar" data-h="4" data-day="토">
+                <div class="rect"></div>
+                <div class="label">토</div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -444,23 +564,141 @@
       <!-- 평균 완료 시간 -->
       <section class="graph-card section">
         <h4>평균 완료 시간</h4>
-        <div class="spark-wrap">
-          <div class="spark">
-            <div class="chart"><i></i><i></i><i></i><i></i><i></i><i></i></div>
-            <div class="axis"><span>12 a.m.</span><span>6 a.m.</span></div>
+        <div class="time-chart-container">
+          <!-- 시간대 막대 그래프 -->
+          <div class="time-bars">
+            <!-- 12 a.m. 그룹 -->
+            <div class="time-group">
+              <div class="time-bar high"></div>
+              <div class="time-bar medium"></div>
+              <div class="time-bar low"></div>
+            </div>
+
+            <!-- 6 a.m. 그룹 (빈 공간) -->
+            <div class="time-group empty"></div>
+
+            <!-- 12 p.m. 그룹 -->
+            <div class="time-group">
+              <div class="time-bar low"></div>
+              <div class="time-bar medium"></div>
+            </div>
+
+            <!-- 6 p.m. 그룹 -->
+            <div class="time-group">
+              <div class="time-bar highest"></div>
+              <div class="time-bar medium"></div>
+              <div class="time-bar low"></div>
+            </div>
           </div>
-          <div class="spark">
-            <div class="chart"><i></i><i></i><i></i><i></i><i></i><i></i></div>
-            <div class="axis"><span>12 p.m.</span><span>6 p.m.</span></div>
-          </div>
-          <div class="spark">
-            <div class="chart"><i></i><i></i><i></i><i></i><i></i><i></i></div>
-            <div class="axis"><span>(h)</span><span>&nbsp;</span></div>
+
+          <!-- X축 시간 라벨 -->
+          <div class="time-axis">
+            <div class="time-tick">
+              <div class="tick-line"></div>
+              <span class="time-label">12 a.m.</span>
+            </div>
+            <div class="time-tick">
+              <div class="tick-line"></div>
+              <span class="time-label">6 a.m.</span>
+            </div>
+            <div class="time-tick">
+              <div class="tick-line"></div>
+              <span class="time-label">12 p.m.</span>
+            </div>
+            <div class="time-tick">
+              <div class="tick-line"></div>
+              <span class="time-label">6 p.m.</span>
+            </div>
+            <div class="time-unit">(h)</div>
           </div>
         </div>
       </section>
 
       <div class="space"></div>
     </main>
+    <script>
+      (async () => {
+        // const API = "http://172.30.1.78:8082/ai-report";
+        const API = "http://192.0.0.2:8082/ai-report";
+        const $report = document.querySelector(".text-report p");
+        if (!$report) return;
+
+        const userProfile = {
+          name: "취준생 브라운",
+          age: 26,
+          gender: "여성",
+          employment_status: "1회 인턴십 수행, 취업 준비 1년차",
+          mental_state: "불안 증세 및 수면 부족",
+          target_job: "해외영업",
+          major: "불어불문학 + 경영학 복수전공",
+          preferences: {
+            notifications: "최대한 적게 받고 싶어요",
+            usage_time: "점심·쉬는 시간 틈틈이",
+            stress: "종종 쌓이곤 해요",
+            lethargy: "자주 무기력함을 느껴요",
+            sleep: "5시간 이하로 거의 못 자요",
+            self_efficacy: "자신감이 부족해 도전이 망설여져요",
+            concentration: "30분도 채 안 돼서 집중이 흐트러져요",
+            exercise: "운동은 거의 안 해요",
+            recovery: "음악을 들으며 기분 전환",
+            preparation_period: "1년 이상",
+            main_activities: "자기소개서 다듬기, 어학·자격증 기초 쌓기",
+            interests: "경영/기획/전략",
+          },
+        };
+
+        const monthData = {
+          metrics: {
+            completion_rate: 0.76,
+            active_days: 21,
+            avg_todos_per_day: 3.9,
+            carryover_rate: 0.18,
+          },
+          delta_vs_prev: { completion_rate: 0.09, active_days: 2 },
+          todos: [
+            { date: "2025-09-01", status: "done", difficulty: 2, source: "ai" },
+            {
+              date: "2025-09-02",
+              status: "carryover",
+              difficulty: 3,
+              source: "ai",
+            },
+            { date: "2025-09-03", status: "done", difficulty: 3, source: "ai" },
+            { date: "2025-09-04", status: "done", difficulty: 4, source: "ai" },
+            {
+              date: "2025-09-05",
+              status: "done",
+              difficulty: 3,
+              source: "ai",
+              resurfaced: true,
+            },
+          ],
+          difficulty_policy: {
+            recent_window_days: 3,
+            rules: [
+              { if_recent_completion_lt: 0.5, action: "easier" },
+              { if_recent_completion_ge: 0.9, action: "harder" },
+              { resurfaced_yesterday_incomplete: true },
+            ],
+          },
+        };
+
+        try {
+          $report.textContent = "AI 리포트를 불러오는 중입니다...";
+          const res = await fetch(API, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ userProfile, monthData }),
+          });
+          if (!res.ok) throw new Error("AI 리포트 API 실패");
+          const { aiReport } = await res.json();
+          $report.textContent =
+            aiReport?.report_text || "리포트를 불러오지 못했습니다.";
+        } catch (e) {
+          console.error(e);
+          $report.textContent = "네트워크 오류로 리포트를 불러오지 못했습니다.";
+        }
+      })();
+    </script>
   </body>
 </html>
