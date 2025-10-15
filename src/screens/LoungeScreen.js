@@ -1,13 +1,43 @@
-// src/screens/LoungeScreen.js
+import React from "react";
+import {
+  View,
+  StyleSheet,
+  ImageBackground,
+  TouchableOpacity,
+  Dimensions,
+} from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+const { width, height } = Dimensions.get("window");
 
-function LoungeScreen() {
+export default function LoungeScreen() {
+  const navigation = useNavigation();
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>🕹️ 라운지 (미니 게임)</Text>
-      <Text style={styles.subtitle}>준비 중인 미니 게임이 있어요!</Text>
+      <ImageBackground
+        source={require("./img/lounge/lounge_background.png")}
+        style={styles.background}
+        resizeMode="cover"
+      >
+        {/* ⭐ 스타의 삶 버튼 */}
+        <TouchableOpacity
+          style={styles.starLifeBtn}
+          onPress={() => navigation.navigate("StarLife")}
+        />
+
+        {/* 🔮 타로의 집 버튼 */}
+        <TouchableOpacity
+          style={styles.tarotBtn}
+          onPress={() => navigation.navigate("Tarot")}
+        />
+
+        {/* 🧠 두뇌 트레이닝 버튼 */}
+        <TouchableOpacity
+          style={styles.brainBtn}
+          onPress={() => navigation.navigate("BrainTraining")}
+        />
+      </ImageBackground>
     </View>
   );
 }
@@ -15,20 +45,36 @@ function LoungeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F7FFF7',
   },
-  title: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    marginBottom: 10,
-    color: '#00A86B', // 에메랄드 그린
+  background: {
+    flex: 1,
+    width: "100%",
+    height: "100%",
   },
-  subtitle: {
-    fontSize: 18,
-    color: '#343a40',
+
+  /* === 버튼 터치 영역 ===
+   * 아래 값들은 예시입니다. 기기 비율에 따라 조정 필요!
+   * (가로: width 기준 비율, 세로: height 기준 비율로 위치 잡기)
+   */
+  starLifeBtn: {
+    position: "absolute",
+    top: height * 0.18,
+    left: width * 0.2,
+    width: width * 0.5,
+    height: height * 0.08,
+  },
+  tarotBtn: {
+    position: "absolute",
+    top: height * 0.32,
+    left: width * 0.55,
+    width: width * 0.35,
+    height: height * 0.08,
+  },
+  brainBtn: {
+    position: "absolute",
+    top: height * 0.55,
+    left: width * 0.15,
+    width: width * 0.4,
+    height: height * 0.08,
   },
 });
-
-export default LoungeScreen;
