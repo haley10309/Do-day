@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="utf-8" />
+    <title>투두 앱</title>
+    <link rel="stylesheet" href="globals.css" />
+    <link rel="stylesheet" href="styleguide.css" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="home">
+      <img class="do-day-background" src="img/do-day-background-1.png" alt="배경 이미지" />
+      <section class="points-badge">
+        <div class="points-badge-content">
+          <img class="points-icon" src="img/image-203.png" alt="포인트 아이콘" />
+          <span class="points-text">200p</span>
+        </div>
+      </section>
+      <img class="settings-icon" src="img/image-226.png" alt="설정" role="button" aria-label="설정" />
+      <div class="character-container">
+        <div class="character-shadow"></div>
+        <img class="character-image" src="img/image-323.png" alt="캐릭터" />
+      </div>
+      <img class="room-decoration" src="img/untitled-1-1.png" alt="방 장식" />
+      <article class="todo-card">
+        <header class="todo-header">
+          <h1 class="todo-date">9월 18일</h1>
+          <div class="todo-stats">
+            <div class="todo-stats-label">투두 현황</div>
+            <div class="todo-stats-numbers">
+              <span class="todo-stats-current">6</span>
+              <span class="todo-stats-separator">/</span>
+              <span class="todo-stats-total">10</span>
+            </div>
+          </div>
+          <div class="todo-percentage-text">
+            <span class="percentage-number">60</span>
+            <span class="percentage-symbol">%</span>
+          </div>
+        </header>
+        <div class="progress-bar-container">
+          <div class="progress-bar-fill"></div>
+        </div>
+        <div class="todo-actions">
+          <button class="action-button action-button-refresh" aria-label="새로고침">
+            <div class="action-button-icon">
+              <img class="action-icon-vector" src="img/vector-60.svg" alt="" />
+              <img class="action-icon-ellipse" src="img/ellipse-174.svg" alt="" />
+            </div>
+          </button>
+          <button class="action-button action-button-more" aria-label="더보기">
+            <img class="action-icon" src="img/group-1707481989.png" alt="" />
+          </button>
+        </div>
+        <ul class="todo-list">
+          <li class="todo-item todo-item-completed">
+            <div class="todo-item-icon">
+              <img class="todo-icon-image" src="img/image.png" alt="" />
+            </div>
+            <span class="todo-item-text">자기 개발 책 한 장 읽기</span>
+            <button class="todo-checkbox todo-checkbox-checked" aria-label="완료됨">
+              <img class="checkbox-icon" src="img/vector-8.svg" alt="" />
+            </button>
+          </li>
+          <li class="todo-item">
+            <div class="todo-item-icon">
+              <img class="todo-icon-image" src="img/image-275.png" alt="" />
+            </div>
+            <span class="todo-item-text">오늘의 투두 최대 두줄까지</span>
+            <button class="todo-checkbox" aria-label="미완료"></button>
+          </li>
+          <li class="todo-item todo-item-placeholder">
+            <div class="todo-item-icon todo-item-icon-placeholder">
+              <img class="todo-icon-image" src="img/image-274.png" alt="" />
+            </div>
+          </li>
+        </ul>
+      </article>
+      <nav class="bottom-navigation">
+        <img class="nav-background" src="img/rectangle-33385.png" alt="" />
+        <button class="nav-fab" aria-label="추가">
+          <div class="nav-fab-icon">
+            <div class="nav-fab-horizontal"></div>
+            <div class="nav-fab-vertical"></div>
+          </div>
+        </button>
+        <ul class="nav-items">
+          <li class="nav-item nav-item-active">
+            <div class="nav-item-icon">
+              <div class="nav-icon-todo-wrapper">
+                <img class="nav-icon-todo" src="img/vector-5.svg" alt="" />
+              </div>
+            </div>
+            <span class="nav-item-label nav-item-label-active">투두</span>
+          </li>
+          <li class="nav-item">
+            <div class="nav-item-icon">
+              <img class="nav-icon-lounge" src="img/vector.svg" alt="" />
+            </div>
+            <span class="nav-item-label">라운지</span>
+          </li>
+          <li class="nav-item nav-item-spacer" aria-hidden="true"></li>
+          <li class="nav-item">
+            <div class="nav-item-icon">
+              <div class="nav-icon-teams"></div>
+            </div>
+            <span class="nav-item-label">팀즈</span>
+          </li>
+          <li class="nav-item">
+            <div class="nav-item-icon">
+              <div class="nav-icon-mypage">
+                <img class="nav-icon-mypage-head" src="img/image.svg" alt="" />
+                <img class="nav-icon-mypage-body" src="img/vector-3.svg" alt="" />
+              </div>
+            </div>
+            <span class="nav-item-label">마이페이지</span>
+          </li>
+        </ul>
+      </nav>
+      <img class="decorative-divider" src="img/mask-group.png" alt="" aria-hidden="true" />
+    </main>
+  </body>
+</html>
