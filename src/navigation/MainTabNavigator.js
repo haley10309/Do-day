@@ -9,6 +9,9 @@ import ShopScreen from '../screens/ShopScreen';
 import LoungeScreen from '../screens/LoungeScreen';
 import TeamsScreen from '../screens/TeamsScreen';
 import MyPageScreen from '../screens/MyPageScreen';
+import TaroScreen from '../screens/TaroScreen';
+import LoungeLevelTestScreen from '../screens/LoungeLevelTestScreen';
+import StarLifeScreen from '../screens/StarsLifeScreen';
 
 import nav_todo from './asset/nav_todo.png';
 import nav_todo_not from './asset/nav_todo_not.png';
@@ -27,6 +30,11 @@ function TodoStackNavigator() {
     <TodoStack.Navigator screenOptions={{ headerShown: false }}>
       <TodoStack.Screen name="TodoMain" component={TodoScreen} />
       <TodoStack.Screen name="Shop" component={ShopScreen} />
+      <TodoStack.Screen name="Star" component={StarLifeScreen} />
+      <TodoStack.Screen name="Taro" component={TaroScreen} />
+      <TodoStack.Screen name="LevelTest" component={LoungeLevelTestScreen} />
+      <TodoStack.Screen name="Lounge" component={LoungeScreen} />
+
     </TodoStack.Navigator>
   );
 }
