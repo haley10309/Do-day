@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+
+    <link
+      rel="stylesheet"
+      as="style"
+      crossorigin
+      href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css"
+    />
+
+    <title>달력 상세</title>
+    <style>
+      :root {
+        --bg: #fdf1db;
+        --card: #fcf5ed;
+        --muted: #8a6a49;
+        --stroke: #8d613a;
+        --chip: #ffe8c3;
+        --sub-text: #7b5c2b;
+        --main-text: #3b270d;
+        --radius: 16px;
+        --shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+        --safe: env(safe-area-inset-bottom, 0px);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        margin: 0;
+        font-family: "Pretendard", -apple-system, BlinkMacSystemFont, system-ui,
+          Segoe UI, Roboto, Apple SD Gothic Neo, Noto Sans KR, sans-serif;
+        color: var(--main-text);
+        background: var(--bg);
+      }
+      img {
+        max-width: 100%;
+        display: block;
+      }
+
+      .header {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 16px 16px;
+      }
+      /* .header .back {
+        background: none;
+        font-size: 20px;
+        cursor: pointer;
+      } */
+      .back {
+        background: none;
+        border: none;
+        padding: 0;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .back img {
+        width: 24px; /* 원하는 크기 */
+        height: 24px;
+        object-fit: contain;
+      }
+
+      main {
+        padding: 0 14px 24px;
+      }
+      .card {
+        background: #fff;
+        border: 1px solid #e9d8c5;
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+      }
+      .calendar {
+        padding: 12px;
+        border: 2px solid var(--stroke);
+        border-radius: 14px;
+        background: #fffdf9;
+      }
+      .cal-head {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        font-size: 18px;
+        font-weight: 500;
+        margin-bottom: 13px;
+      }
+      .month-btn {
+        background: none;
+        border: none;
+        padding: 0;
+        cursor: pointer;
+        display: inline-flex; /* inline-flex가 레이아웃 상 안전 */
+        align-items: center;
+        justify-content: center;
+        width: 16px; /* ✅ 버튼 자체 크기 보장 */
+        height: 16px;
+      }
+
+      .month-btn img {
+        width: 100%; /* ✅ 버튼 크기에 맞춰 채우기 */
+        height: 100%;
+        object-fit: contain;
+        display: block;
+      }
+      .month {
+        font-weight: 500;
+        font-size: 18;
+        line-height: 1.4;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 6px;
+        text-align: center;
+        align-items: start;
+      }
+      .wd {
+        font-size: 12px;
+        font-weight: 700;
+        color: #8d8176;
+      }
+      .wd.sun {
+        color: #d46255;
+      }
+      .wd.sat {
+        color: #3a77c9;
+      }
+      .day {
+        height: 46px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 2px;
+        font-size: 12px;
+        color: #6f645a;
+      }
+      .day .num {
+        font-weight: 600;
+      }
+      .day .medal {
+        width: 24px;
+        height: 24px;
+      }
+
+      .legend {
+        margin-top: 6px;
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        font-size: 12px;
+        color: #8a6a49;
+      }
+
+      .section {
+        margin-top: 12px;
+      }
+      .block {
+        padding: 12px;
+        border: 2px solid var(--stroke);
+        border-radius: 14px;
+        background: #fffdf9;
+
+        /* ✅ 추가 부분 */
+        max-height: 320px; /* 원하는 높이 (예: 320px) */
+        overflow-y: auto; /* 세로 스크롤 허용 */
+        overscroll-behavior: contain; /* iOS/모바일에서 부드럽게 */
+        scrollbar-width: thin; /* 파이어폭스용 얇은 스크롤 */
+      }
+
+      /* ✅ 크롬 등 webkit 기반 브라우저 스크롤바 스타일 */
+      .block::-webkit-scrollbar {
+        width: 6px;
+      }
+      .block::-webkit-scrollbar-thumb {
+        background-color: rgba(141, 97, 58, 0.4);
+        border-radius: 4px;
+      }
+      .block::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      .block h3 {
+        margin: 0 0 10px 0;
+        font-size: 20px;
+        font-weight: 500;
+        line-height: 1.4;
+      }
+      .todo {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      .item {
+        display: grid;
+        grid-template-columns: 32px 1fr 28px;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 12px;
+        border-radius: 12px;
+        background: var(--card);
+      }
+      /* ✅ 1. AI 작성 투두 */
+      .item.ai {
+        background: #dfe3c0;
+      }
+      /* ✅ 2. 사용자(Self) 작성 투두 */
+      .item.self {
+        background: #ffeac8;
+      }
+      .item .icon {
+        width: 32px;
+        height: 32px;
+      }
+      .item .text {
+        font-size: 14px;
+        color: var(--main-text);
+      }
+      .item .done {
+        width: 28px;
+        height: 28px;
+      }
+
+      .footer-space {
+        height: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="header">
+      <button class="back" aria-label="뒤로" onclick="history.back()">
+        <img src="../src/screens/img/myPage/back_button.png" alt="" />
+      </button>
+    </header>
+
+    <main>
+      <div class="cal-head">
+        <button
+          class="month-btn prev"
+          aria-label="이전 달"
+          onclick="alert('이전 달')"
+        >
+          <img
+            src="../src/screens/img/myPage/calendar_back_button_activated.png"
+            alt=""
+          />
+        </button>
+
+        <div class="month">2025년 9월</div>
+
+        <button
+          class="month-btn next"
+          aria-label="다음 달"
+          onclick="alert('다음 달')"
+        >
+          <img
+            src="../src/screens/img/myPage/calendar_forward_button_deactivated.png"
+            alt=""
+          />
+        </button>
+      </div>
+
+      <!-- 달력 카드 -->
+      <section class="card calendar">
+        <!-- 요일 -->
+        <div class="grid" aria-label="월간 달력">
+          <div class="wd sun">일</div>
+          <div class="wd">월</div>
+          <div class="wd">화</div>
+          <div class="wd">수</div>
+          <div class="wd">목</div>
+          <div class="wd">금</div>
+          <div class="wd sat">토</div>
+
+          <!-- 날짜들 (샘플 배치: 스크린샷 느낌) -->
+          <!-- 1주차 -->
+          <div class="day">
+            <span class="num" style="opacity: 0.4">31</span>
+          </div>
+          <div class="day">
+            <span class="num">1</span
+            ><img
+              class="medal"
+              src="../src/screens/img/myPage/all_completed.png"
+              alt="완료"
+            />
+          </div>
+          <div class="day"><span class="num">2</span></div>
+          <div class="day">
+            <span class="num">3</span
+            ><img
+              class="medal"
+              src="../src/screens/img/myPage/all_completed.png"
+              alt="완료"
+            />
+          </div>
+          <div class="day"><span class="num">4</span></div>
+          <div class="day"><span class="num">5</span></div>
+          <div class="day">
+            <span class="num">6</span
+            ><img
+              class="medal"
+              src="../src/screens/img/myPage/partial_completed.png"
+              alt="일부"
+            />
+          </div>
+
+          <!-- 2주차 -->
+          <div class="day sun">
+            <span class="num" style="color: #d46255">7</span
+            ><img
+              class="medal"
+              src="../src/screens/img/myPage/all_completed.png"
+              alt="완료"
+            />
+          </div>
+          <div class="day"><span class="num">8</span></div>
+          <div class="day">
+            <span class="num">9</span
+            ><img
+              class="medal"
+              src="../src/screens/img/myPage/all_completed.png"
+              alt="완료"
+            />
+          </div>
+          <div class="day"><span class="num">10</span></div>
+          <div class="day">
+            <span class="num">11</span
+            ><img
+              class="medal"
+              src="../src/screens/img/myPage/all_completed.png"
+              alt="완료"
+            />
+          </div>
+          <div class="day"><span class="num">12</span></div>
+          <div class="day">
+            <span class="num" style="color: #3a77c9">13</span
+            ><img
+              class="medal"
+              src="../src/screens/img/myPage/partial_completed.png"
+              alt="일부"
+            />
+          </div>
+
+          <!-- 3주차 -->
+          <div class="day">
+            <span class="num" style="color: #d46255">14</span
+            ><img
+              class="medal"
+              src="../src/screens/img/myPage/all_completed.png"
+              alt="완료"
+            />
+          </div>
+          <div class="day"><span class="num">15</span></div>
+          <div class="day"><span class="num">16</span></div>
+          <div class="day"><span class="num">17</span></div>
+          <div class="day">
+            <span class="num">18</span
+            ><img
+              class="medal"
+              src="../src/screens/img/myPage/partial_completed.png"
+              alt="일부"
+            />
+          </div>
+          <div class="day"><span class="num">19</span></div>
+          <div class="day"><span class="num">20</span></div>
+
+          <!-- 나머지 주차는 필요 시 이어서 구성 -->
+        </div>
+
+        <div class="legend" aria-hidden="true">✔︎ 완료 · ◔ 일부 · ○ 미완</div>
+      </section>
+
+      <!-- 9월 19일 리스트 섹션 -->
+      <section class="section">
+        <div class="block">
+          <h3>9월 19일</h3>
+          <div class="todo">
+            <div class="item ai">
+              <img
+                class="icon"
+                src="../src/screens/img/myPage/todo_icon_ai.png"
+                alt="할 일 아이콘"
+              />
+              <div class="text">자기 개발 책 한 장 읽기</div>
+              <img
+                class="done"
+                src="../src/screens/img/myPage/checked_icon.png"
+                alt="완료"
+              />
+            </div>
+            <div class="item ai">
+              <img
+                class="icon"
+                src="../src/screens/img/myPage/todo_icon_ai.png"
+                alt="할 일 아이콘"
+              />
+              <div class="text">감사한 일 5가지 적어보기</div>
+              <img
+                class="done"
+                src="../src/screens/img/myPage/checked_icon.png"
+                alt="완료"
+              />
+            </div>
+            <div class="item self">
+              <img
+                class="icon"
+                src="../src/screens/img/myPage/todo_icon_self.png"
+                alt="메모 아이콘"
+              />
+              <div class="text">명상 15분 하기</div>
+              <img
+                class="done"
+                src="../src/screens/img/myPage/checked_icon.png"
+                alt="완료"
+              />
+            </div>
+            <div class="item ai">
+              <img
+                class="icon"
+                src="../src/screens/img/myPage/todo_icon_ai.png"
+                alt="메모 아이콘"
+              />
+              <div class="text">명상 15분 하기</div>
+              <img
+                class="done"
+                src="../src/screens/img/myPage/checked_icon.png"
+                alt="완료"
+              />
+            </div>
+            <div class="item self">
+              <img
+                class="icon"
+                src="../src/screens/img/myPage/todo_icon_self.png"
+                alt="메모 아이콘"
+              />
+              <div class="text">명상 15분 하기</div>
+              <img
+                class="done"
+                src="../src/screens/img/myPage/checked_icon.png"
+                alt="완료"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="footer-space"></div>
+    </main>
+  </body>
+</html>

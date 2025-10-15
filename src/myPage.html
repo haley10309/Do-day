@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+
+    <link
+      rel="stylesheet"
+      as="style"
+      crossorigin
+      href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendardvariable.css"
+    />
+
+    <title>마이페이지</title>
+    <style>
+      :root {
+        --bg: #fdf1db;
+        --card: #fcf5ed;
+        --muted: #8a6a49;
+        --stroke: #8d613a;
+        --chip: #ffe8c3;
+        --sub-text: #7b5c2b;
+        --main-text: #3b270d;
+        --radius: 18px;
+        --shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+        --safe: env(safe-area-inset-bottom, 0px);
+      }
+      /* reset */
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        margin: 0;
+        font-family: "Pretendard";
+        color: var(--main-text);
+        background: var(--bg);
+      }
+      img {
+        display: block;
+        max-width: 100%;
+        height: auto;
+      }
+      h1,
+      h2,
+      h3,
+      p {
+        margin: 0;
+      }
+      button {
+        border: 0;
+        background: none;
+        font: inherit;
+        color: inherit;
+        cursor: pointer;
+      }
+
+      /* header */
+      .header {
+        padding: 16px 16px 8px;
+        display: flex;
+        align-items: center;
+      }
+      .header h1 {
+        font-weight: 800;
+        font-size: 20px;
+        letter-spacing: -0.3px;
+      }
+      .header .spacer {
+        flex: 1;
+      }
+      .header .gear {
+        width: 22px;
+        height: 22px;
+        opacity: 0.85;
+      }
+
+      /* layout */
+      main {
+        padding: 0 14px 96px;
+      }
+
+      /* card base */
+      .card {
+        background: var(--card);
+        border: 1px solid var(--stroke);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+      }
+
+      /* profile card (시안 구성에 맞게 수직 컬럼 중앙정렬) */
+      .profile {
+        margin-top: 16px;
+        background: transparent;
+        border: none;
+        box-shadow: none;
+        padding: 0; /* 내부 여백도 .profile-inner 쪽으로 이관 */
+        /* margin-bottom: 8px; */
+      }
+      .profile-inner {
+        border: none;
+        padding: 18px 16px;
+        background: transparent;
+      }
+      .avatar {
+        width: 84px;
+        height: 84px;
+        border-radius: 50%;
+        overflow: hidden;
+        background: var(--card);
+        margin: 0 auto 24px;
+      }
+      .name-row {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        margin-bottom: 11px;
+      }
+      .name-row .badge {
+        width: 24px;
+        height: 24px;
+      }
+      .name-row .name {
+        font-weight: 600;
+        font-size: 20px;
+        line-height: 1.4;
+        letter-spacing: -2.5px;
+      }
+      .edit-chip {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 4px 12px;
+        border-radius: 100px;
+        background: transparent;
+        border: 1px solid #cca481;
+        font-weight: 500;
+        font-size: 13px;
+        line-height: 1.4;
+        letter-spacing: -2.5;
+        color: #7d6642;
+        margin: 0 auto;
+        display: block;
+        margin: 0 auto;
+      }
+
+      /* stats (시안처럼 라운드 박스 안 3등분) */
+      .stats-wrap {
+        margin-top: 16px;
+        margin: 0 -15px;
+        background: transparent;
+        padding: 12px;
+      }
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0;
+        text-align: center;
+      }
+      .stat:not(:last-child) {
+        border-right: 2px solid #ecdec3;
+      }
+      /* 숫자/단위 한 줄 */
+      .stat-main {
+        display: flex;
+        align-items: baseline; /* 숫자와 단위 기준선 맞추기 */
+        justify-content: center; /* 중앙 정렬 */
+        gap: 2px; /* 숫자-단위 간격 */
+      }
+
+      /* 숫자(강조) */
+      .stat .value {
+        display: block;
+        font-size: 24px;
+        font-weight: 600;
+        line-height: 1.4;
+        font-variant-numeric: tabular-nums; /* 숫자 폭 균일(선택) */
+        color: #3b270d;
+        letter-spacing: 0;
+      }
+
+      /* 단위(보통체) */
+      .stat .unit {
+        font-size: 16px; /* 숫자보다 살짝 작게 */
+        font-weight: 500; /* 보통체 */
+        line-height: 1.4;
+        color: #3b270d; /* 팔레트 메인 잉크 */
+        letter-spacing: 0;
+      }
+
+      /* 서브 텍스트 */
+      .stat .label {
+        display: block;
+        color: #7b5c2b;
+        font-size: 14px;
+        font-weight: 500; /* 보통체 */
+        margin-top: 2px;
+        line-height: 1.4;
+        letter-spacing: 0;
+      }
+
+      /* week block (시안의 진한 라인/라운딩/간격) */
+      .week {
+        padding-top: 16px;
+        margin: 0 -14px;
+        border: 2px solid var(--stroke);
+        border-radius: 16px;
+        padding: 24px 17px;
+        background: var(--card);
+      }
+      .week {
+        cursor: pointer;
+        user-select: none;
+      }
+      .week:focus {
+        outline: 3px solid rgba(141, 97, 58, 0.25);
+        outline-offset: 2px;
+      }
+      .week:active {
+        transform: translateY(1px);
+      }
+      .days {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 8px;
+        text-align: center;
+        margin-bottom: 10px;
+      }
+      .day-label {
+        display: flex; /* 가로 → 세로 정렬 구조로 전환 */
+        flex-direction: column; /* ✅ 수직 정렬 */
+        align-items: center;
+        font-size: 13px;
+        font-weight: 600;
+        color: #7b5c2b;
+        margin-bottom: 15;
+      }
+      .day-label .date {
+        /*숫자*/
+        font-size: 14;
+        font-weight: 400;
+        color: #3b270d;
+        margin-bottom: 2px;
+      }
+      .day-label .sun {
+        color: #ff6456;
+        font-weight: 600;
+      }
+      .day-label .sat {
+        color: #719bff;
+        font-weight: 600;
+      }
+      .medal {
+        width: 40px;
+        height: 41px;
+        margin: 6px auto 0;
+      }
+      .tip {
+        padding-top: 12px;
+        color: var(--sub-text);
+        font-weight: 500;
+        font-size: 16px;
+      }
+
+      /* list cells (시안의 토스트형 박스) */
+      .list {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        /* margin-top: 12px; */
+      }
+      .cell {
+        padding: 20px 24px;
+        border: 2px solid var(--stroke);
+        border-radius: 14px;
+        background: var(--card);
+      }
+      .cell h3 {
+        font-size: 20px;
+        font-weight: 600;
+        margin-bottom: 6px;
+      }
+      .cell p {
+        font-size: 14px;
+        color: var(--sub-text);
+      }
+
+      /* bottom nav */
+      .nav {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        padding: 10px 16px calc(10px + var(--safe));
+        background: #fff;
+        border-top: 1px solid var(--stroke);
+        display: grid;
+        grid-template-columns: 1fr 1fr 80px 1fr 1fr;
+        align-items: center;
+      }
+      .nav .item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+        font-size: 11px;
+        color: #8e8e8e;
+      }
+      .nav .item.active {
+        color: #d8952a;
+        font-weight: 800;
+      }
+      .fab {
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        background: #f9b855;
+        color: #fff;
+        border: 2px solid #f2a83a;
+        box-shadow: 0 8px 24px rgba(249, 184, 85, 0.45);
+        font-size: 28px;
+        font-weight: 700;
+      }
+
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <!-- 프로필 -->
+      <section class="card profile" aria-labelledby="myinfo">
+        <h2 id="myinfo" class="sr-only">내 정보</h2>
+        <div class="profile-inner">
+          <div class="avatar">
+            <img
+              src="../src/screens/img/myPage/profile.png"
+              alt="프로필 이미지"
+            />
+          </div>
+
+          <div class="name-row">
+            <img
+              class="badge"
+              src="../src/screens/img/myPage/premium_icon.png"
+              alt=""
+            />
+            <span class="name">취준생 브라운</span>
+          </div>
+
+          <button class="edit-chip" onclick="toast('내 정보 수정')">
+            내 정보 수정
+          </button>
+
+          <div class="stats-wrap">
+            <div class="stats">
+              <div class="stat">
+                <div class="stat-main">
+                  <strong class="value">10</strong><span class="unit">일</span>
+                </div>
+                <small class="label">성공 일수</small>
+              </div>
+
+              <div class="stat">
+                <div class="stat-main">
+                  <strong class="value">4</strong><span class="unit">개</span>
+                </div>
+                <small class="label">평균 투두</small>
+              </div>
+
+              <div class="stat">
+                <div class="stat-main">
+                  <strong class="value">54</strong><span class="unit">개</span>
+                </div>
+                <small class="label">총 투두</small>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="week"
+            role="button"
+            tabindex="0"
+            aria-label="주간 현황 – 상세기록으로 이동"
+            data-link="myPage_recordDetail.html"
+          >
+            <div class="days">
+              <div>
+                <div class="day-label">
+                  <span class="date">14</span> <span class="sun">일</span>
+                </div>
+                <img
+                  class="medal"
+                  src="../src/screens/img/myPage/nothing_completed.png"
+                  alt="미완료"
+                />
+              </div>
+              <div>
+                <div class="day-label"><span class="date">15</span> 월</div>
+                <img
+                  class="medal"
+                  src="../src/screens/img/myPage/all_completed.png"
+                  alt="전체 완료"
+                />
+              </div>
+              <div>
+                <div class="day-label"><span class="date">16</span> 화</div>
+                <img
+                  class="medal"
+                  src="../src/screens/img/myPage/nothing_completed.png"
+                  alt="미완료"
+                />
+              </div>
+              <div>
+                <div class="day-label"><span class="date">17</span> 수</div>
+                <img
+                  class="medal"
+                  src="../src/screens/img/myPage/all_completed.png"
+                  alt="전체 완료"
+                />
+              </div>
+              <div>
+                <div class="day-label"><span class="date">18</span> 목</div>
+                <img
+                  class="medal"
+                  src="../src/screens/img/myPage/partial_completed.png"
+                  alt="일부 완료"
+                />
+              </div>
+              <div>
+                <div class="day-label"><span class="date">19</span> 금</div>
+                <img
+                  class="medal"
+                  src="../src/screens/img/myPage/all_completed.png"
+                  alt="전체 완료"
+                />
+              </div>
+              <div>
+                <div class="day-label">
+                  <span class="date">20</span> <span class="sat">토</span>
+                </div>
+                <img
+                  class="medal"
+                  src="../src/screens/img/myPage/nothing_completed.png"
+                  alt="미완료"
+                />
+              </div>
+            </div>
+            <div class="tip">이번 주도 잘 하고 있어요!</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 리스트 -->
+      <section class="list" aria-label="리포트 및 리워드">
+        <article class="cell" id="aiReportBtn">
+          <h3>AI 리포트</h3>
+          <p>이번 달 AI가 분석한 기록입니다</p>
+        </article>
+        <article class="cell">
+          <h3>리워드 현황</h3>
+          <p>지금까지의 리워드를 모아볼 수 있는 공간입니다</p>
+        </article>
+      </section>
+    </main>
+
+    <!-- 하단 네비게이션 (시안과 동일한 구조/색) -->
+    <nav class="nav" role="navigation" aria-label="하단 내비게이션">
+      <button class="item" onclick="toast('투두')">
+        <span>📝</span>
+        <span>투두</span>
+      </button>
+      <button class="item" onclick="toast('라운지')">
+        <span>💬</span>
+        <span>라운지</span>
+      </button>
+      <button class="fab" aria-label="추가" onclick="toast('추가하기')">
+        ＋
+      </button>
+      <button class="item" onclick="toast('팀즈')">
+        <span>👥</span>
+        <span>팀즈</span>
+      </button>
+      <button class="item active" onclick="toast('마이페이지')">
+        <span>👤</span>
+        <span>마이페이지</span>
+      </button>
+    </nav>
+
+    <script>
+      // 토스트
+      let __t;
+      function toast(msg) {
+        let el = document.getElementById("__toast");
+        if (!el) {
+          el = document.createElement("div");
+          el.id = "__toast";
+          el.setAttribute("role", "status");
+          Object.assign(el.style, {
+            position: "fixed",
+            left: "50%",
+            bottom: `calc(24px + var(--safe))`,
+            transform: "translateX(-50%)",
+            background: "rgba(0,0,0,.8)",
+            color: "#fff",
+            padding: "10px 14px",
+            borderRadius: "12px",
+            fontSize: "14px",
+            zIndex: 9999,
+            transition: "opacity .2s",
+            maxWidth: "80%",
+            textAlign: "center",
+          });
+          document.body.appendChild(el);
+        }
+        el.textContent = msg;
+        el.style.opacity = "1";
+        clearTimeout(__t);
+        __t = setTimeout(() => (el.style.opacity = "0"), 1400);
+      }
+
+      (() => {
+        const week = document.querySelector(".week[data-link]");
+        if (!week) return;
+
+        const go = () => {
+          const href = week.getAttribute("data-link") || "calendar.html";
+          window.location.href = href;
+        };
+
+        week.addEventListener("click", go);
+        week.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            go();
+          }
+        });
+
+        const btn = document.getElementById("aiReportBtn");
+        if (!btn) return;
+        btn.setAttribute("role", "button");
+        btn.setAttribute("tabindex", "0");
+        btn.addEventListener("click", () => (location.href = "myPage_aiReport.html"));
+        btn.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            location.href = "myPage_aiReport.html";
+          }
+        });
+      })();
+    </script>
+  </body>
+</html>
