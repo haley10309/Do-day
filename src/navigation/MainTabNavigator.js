@@ -15,6 +15,7 @@ import StarLifeScreen from '../screens/StarsLifeScreen';
 
 import nav_todo from './asset/nav_todo.png';
 import nav_todo_not from './asset/nav_todo_not.png';
+import nav_teams from './asset/nav_teams.png';
 import nav_teams_not from './asset/nav_teams_not.png';
 import nav_mypage from './asset/nav_mypage.png';
 import nav_mypage_not from './asset/nav_mypage_not.png';
@@ -177,7 +178,7 @@ export default function MainTabNavigator() {
           tabBarIcon: ({ focused }) => (
             <View style={{ alignItems: 'center', justifyContent: 'center' }}>
               <Image
-                source={nav_teams_not}
+                source={focused ? nav_teams :nav_teams_not}
                 style={{
                   width: 70,
                   height: 70,
